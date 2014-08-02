@@ -1,0 +1,7 @@
+var Socket = (function () {
+
+  return {
+    
+  }
+
+})();
