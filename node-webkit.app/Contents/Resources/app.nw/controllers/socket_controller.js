@@ -1,10 +1,9 @@
-// dependencies
+// // dependencies
 var app = require('http').createServer(server);
 var io = require('socket.io')(app);
 var url = require('url');
 var fs = require('fs');
 
-// my shit
 var visitors = [];
 
 function server (req, res) {
