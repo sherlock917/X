@@ -1,6 +1,6 @@
 {
   "name" : "nw-test",
-  "main" : "./view/client.html",
+  "main" : "./views/client.html",
   "window" : {
     "toolbar" : true,
     "width" : 800,

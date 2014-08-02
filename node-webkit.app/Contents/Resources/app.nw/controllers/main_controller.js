@@ -1,5 +1,7 @@
+var socket = require('../controllers/socket_controller');
+
 window.onload = function () {
 
-  alert('fuck');
+  socket.startServer();
 
 }
