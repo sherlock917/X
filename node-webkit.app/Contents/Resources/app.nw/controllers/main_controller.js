@@ -14,7 +14,7 @@
 
   window.onload = function () {
     socket.startServer(messageCallback);
-    location.getLocationByIp();
+    var locationJson = location.getLocationByIp();
   }
 
 })();
