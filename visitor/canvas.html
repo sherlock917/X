@@ -53,15 +53,12 @@ function initCanvas(){
 		document.getElementById("p2").innerHTML = e.targetTouches[1].pageX +" "+ e.targetTouches[1].pageY;
 
 		if(e.targetTouches[1]==null){
-
 			backX = touch.pageX-canvasLeft;
 			backY = touch.pageY-canvasTop;
-
 			context.save();
 			context.fillStyle = "rgb(0,0,0)";
 			context.fillRect(touch.pageX-canvasLeft,touch.pageY-canvasTop,1,1);
 			context.restore();
-
 		}else{
 			backX = (e.targetTouches[0].pageX + e.targetTouches[1].pageX)/2-canvasLeft;
 			backY = (e.targetTouches[0].pageY + e.targetTouches[1].pageY)/2-canvasTop;
