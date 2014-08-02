@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Canvas</title>
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<body>
+
+<canvas id="canvas">
+</canvas>
+
+<p id="move"></p>
+<p id="p1"></p>
+<p id="p2"></p>
+</body>
+
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+//	initFatherCanvas();
+	initCanvas();
+}
+
+var canvas;
+var fatherCanvas;
+var tmp;
+
+function initCanvas(){
+	canvas = document.getElementById("canvas");
+	canvas.width = canvas.offsetWidth;
+	canvas.height = canvas.offsetHeight;
+	var context = canvas.getContext("2d");
+
+	var backX;
+	var backY;
+	canvas.addEventListener("touchstart",function(e){
+		e.preventDefault();
+		var touch = e.targetTouches[0];
+
+		document.getElementById("p1").innerHTML = e.targetTouches[0];
+		document.getElementById("p2").innerHTML = e.targetTouches[1];
+
+		if(e.targetTouches[1]==null){
+
+			backX = touch.pageX-canvas.offsetLeft;
+			backY = touch.pageY-canvas.offsetTop;
+
+			context.save();
+			context.fillStyle = "rgb(0,0,0)";
+			context.fillRect(touch.pageX-canvas.offsetLeft,touch.pageY-canvas.offsetTop,1,1);
+			context.restore();
+
+		}else{
+			backX = (e.targetTouches[0].pageX + e.targetTouches[1].pageX)/2-canvas.offsetLeft;
+			backY = (e.targetTouches[0].pageY + e.targetTouches[1].pageY)/2-canvas.offsetTop;
+		}
+	});
+	canvas.addEventListener("touchmove",function(e){
+		e.preventDefault();
+		var touch = e.targetTouches[0];
+
+		if(e.targetTouches[1]==null){
+			context.save();
+			context.strokeStyle = "rgb(0,0,0)";
+			context.moveTo(backX,backY);
+			context.lineTo(touch.pageX-canvas.offsetLeft,touch.pageY-canvas.offsetTop);
+			context.stroke();
+			context.restore();
+
+			backX = touch.pageX-canvas.offsetLeft;
+			backY = touch.pageY-canvas.offsetTop;
+		}else{
+			var nowX = (e.targetTouches[0].pageX + e.targetTouches[1].pageX)/2 -canvas.offsetLeft;
+			var nowY = (e.targetTouches[0].pageY + e.targetTouches[1].pageY)/2 -canvas.offsetTop;
+
+			document.getElementById("move").innerHTML = "x: " + (backX-nowX) + " y: "+ (backY-nowY);
+
+			backX = (e.targetTouches[0].pageX + e.targetTouches[1].pageX)/2-canvas.offsetLeft;
+			backY = (e.targetTouches[0].pageY + e.targetTouches[1].pageY)/2-canvas.offsetTop;
+
+		}
+
+	});
+	canvas.addEventListener("touchend",function(e){
+		
+	});
+}
+
+function initFatherCanvas(){
+	fatherCanvas = document.getElementById("fatherCanvas");
+
+	var fatherContext = fatherCanvas.getContext("2d");
+
+	fatherContext.save();
+	fatherContext.fillStyle = "rgb(248,104,108)";
+	fatherContext.fillRect(0,0,fatherCanvas.offsetWidth,fatherCanvas.offsetHeight);
+	fatherContext.restore();
+
+	tmp=context.getImageData(10,10,50,50);
+}
+
+</script>
+
+</html>
