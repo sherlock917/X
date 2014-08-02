@@ -1,0 +1,13 @@
+html,body{margin: 0; width: 100%; height: 100%; background-color: #f0f0f0;}
+
+
+.chat_header{position: fixed; background-color: #fff; width: 100%; height: 60px; box-shadow: 0 0 5px 1px rgba(0,0,0,0.2);}
+
+.chat_footer{position: fixed;}
+
+#canvasWrap{ position: relative; width: 100%; height: 100%; overflow: hidden;}
+#canvas{ position: absolute; width: 1000px; height: 1000px;}
+
+#move{position: absolute; left: 20px; bottom: 40px; line-height: 20px; font-family: Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei, Verdana, Aril, sans-serif;}
+#p1{position: absolute; left: 20px; bottom: 20px; line-height: 20px; font-family: Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei, Verdana, Aril, sans-serif;}
+#p2{position: absolute; left: 20px; bottom: 0px; line-height: 20px; font-family: Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei, Verdana, Aril, sans-serif;}
