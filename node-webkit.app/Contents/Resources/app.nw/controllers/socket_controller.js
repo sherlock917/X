@@ -1,4 +1,3 @@
-// // dependencies
 var app = require('http').createServer(server);
 var io = require('socket.io')(app);
 var url = require('url');
@@ -36,10 +35,6 @@ exports.startServer = function (messageCallback) {
 
   io.on('connection', function (socket) { 
 
-    visitors.push(socket);
-
-    socket.emit('id', socket.id);
-
     socket.on('disconnect', function() {
       for (var i = 0; i < visitors.length; i++) {
         if (visitors[i] == this) {
@@ -48,9 +43,18 @@ exports.startServer = function (messageCallback) {
       }
     });
 
+    socket.on('set_name', function (name) {
+      socket.name = name;
+      visitors.push(socket);
+      socket.emit('id', socket.id);
+      socket.broadcast.emit('new_user', JSON.stringify({
+        name : socket.name,
+        id : socket.id
+      }));
+    });
+
     socket.on('message', function (data) {
-      console.log(data);
-      console.log(messageCallback);
+      socket.broadcast.emit('message', data);
       messageCallback(data);
     });
 

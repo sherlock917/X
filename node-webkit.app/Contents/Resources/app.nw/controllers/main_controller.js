@@ -1,5 +1,7 @@
 (function () {
 
+  var exec = require('child_process').exec;
+
   var socket = require('../controllers/socket_controller');
   var location = require('../modules/location');
 
@@ -12,11 +14,22 @@
       '</span></p>';
   }
 
+  function drawAddress () {
+    exec('ifconfig', function (error, stdout, stderr) {
+      if (error) {
+        console.log(error);
+      } else {
+        if (stdout.match(/(192.168.[0-9]*.[0-9]*)/)) {
+          var url = 'http://' + stdout.match(/(192.168.[0-9]*.[0-9]*)/).pop() + ':3000';
+          new QRCode(document.getElementById("qrcode"), url);
+        }
+      }
+    });
+  }
+
   window.onload = function () {
     socket.startServer(messageCallback);
-    location.getLocationByIp(function (data) {
-      console.log(data);
-    });
+    drawAddress();
   }
 
 })();
