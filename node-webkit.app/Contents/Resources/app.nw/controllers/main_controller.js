@@ -1,6 +1,7 @@
 (function () {
 
   var socket = require('../controllers/socket_controller');
+  var location = require('../modules/location');
 
   function messageCallback (data) {
     var msg = JSON.parse(data);
@@ -13,6 +14,7 @@
 
   window.onload = function () {
     socket.startServer(messageCallback);
+    location.getLocationByIp();
   }
 
 })();
