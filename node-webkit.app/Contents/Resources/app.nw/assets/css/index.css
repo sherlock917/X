@@ -28,8 +28,8 @@ html,body{margin: 0; width: 100%; height: 100%; background-color: #f0f0f0; overf
 .left{ width: 75%; height: 100%; float: left;}
 .right{ width: 25%; height: 100%; float: left; text-align: center;}
 .left b,.right b{ display: inline-block; vertical-align: middle; height: 100%;}
-#inputArea{ width: 80%; padding: 5%; height: 50px; margin-left: 3%; color: #fff; outline: none; border: none; font-size: 16px; vertical-align: middle;}
-#submitBtn{ display: inline-block; width: 90%; height: 40px; line-height: 40px; color: #fff; background-color: rgb(249,102,108); text-decoration: none; outline: none; vertical-align: middle;}
+#visitor-input{ width: 80%; padding: 5%; height: 50px; margin-left: 3%; color: #fff; outline: none; border: none; font-size: 16px; vertical-align: middle;}
+#visitor-submit{ display: inline-block; width: 90%; height: 40px; line-height: 40px; color: #fff; background-color: rgb(249,102,108); text-decoration: none; outline: none; vertical-align: middle;}
 
 #canvasWrap{ position: fixed; right: -100%; top: 0; width: 100%; height: 100%; overflow: hidden;}
 #canvasWrap.active{ right: 0%;}
@@ -38,3 +38,50 @@ html,body{margin: 0; width: 100%; height: 100%; background-color: #f0f0f0; overf
 #move{position: absolute; left: 20px; bottom: 40px; line-height: 20px; font-family: Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei, Verdana, Aril, sans-serif;}
 #p1{position: absolute; left: 20px; bottom: 20px; line-height: 20px; font-family: Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei, Verdana, Aril, sans-serif;}
 #p2{position: absolute; left: 20px; bottom: 0px; line-height: 20px; font-family: Lucida Sans Unicode, Hiragino Sans GB, WenQuanYi Micro Hei, Verdana, Aril, sans-serif;}
+
+
+#login-window {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  transition: z-index 0.5s, opacity 0.5s;
+}
+
+#login-main {
+  width: 100%;
+  height: 200px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  position: absolute;
+}
+
+#visitor-name {
+  width: 70%;
+  height: 20px;
+  display: block;
+  padding: 10px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+#visitor-login {
+  width: 50%;
+  height: 40px;
+  display: block;
+  margin: 50px auto;
+  border: none;
+  border-radius: 5px;
+  background: #33b5e5;
+  font-size: 15px;
+  line-height: 20px;
+  color: #fff;
+  font-size: 15px;
+}

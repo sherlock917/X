@@ -30,12 +30,24 @@ function server (req, res) {
   });
 }
 
+function getAllVisitors () {
+  var result = []
+  for (var i = 0; i < visitors.length; i++) {
+    result.push({name : visitors[i].name, id : visitors[i].id});
+  }
+  return result;
+}
+
 exports.startServer = function (messageCallback) {
   app.listen(3000);
 
   io.on('connection', function (socket) { 
 
     socket.on('disconnect', function() {
+      this.broadcast.emit('user_leave', JSON.stringify({
+        name : this.name,
+        id : this.id
+      }));
       for (var i = 0; i < visitors.length; i++) {
         if (visitors[i] == this) {
           visitors.splice(i, 1);
@@ -45,18 +57,29 @@ exports.startServer = function (messageCallback) {
 
     socket.on('set_name', function (name) {
       socket.name = name;
-      visitors.push(socket);
       socket.emit('id', socket.id);
+      socket.emit('all_user', JSON.stringify(getAllVisitors()));
       socket.broadcast.emit('new_user', JSON.stringify({
         name : socket.name,
         id : socket.id
       }));
+      visitors.push(socket);
     });
 
     socket.on('message', function (data) {
       socket.broadcast.emit('message', data);
       messageCallback(data);
     });
+
+    socket.on('whisper', function (data) {
+      var msg = JSON.parse(data);
+      for (var i = 0; i < visitors.length; i++) {
+        if (msg.target == visitors[i].id) {
+          visitors[i].emit('whisper', data);
+          break;
+        }
+      }
+    })
 
   });
 }
