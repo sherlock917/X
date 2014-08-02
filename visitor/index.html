@@ -8,46 +8,47 @@
 </head>
 
 <body>
+
 <div id="user-list">
 	<div class="user-div">
-		<a class="chat-btn" href="javascirpt:;"></a>
+		<a class="chat-btn" href="javascript:;"></a>
 		<p class="user-name">商家</p>
 		<a class="canvas-btn" href="javascript:;"></a> 
 	</div>
 	<div class="user-div">
-		<a class="chat-btn" href="javascirpt:;"></a>
+		<a class="chat-btn" href="javascript:;"></a>
 		<p class="user-name">王小明</p>
 	</div>
 	<div class="user-div">
-		<a class="chat-btn" href="javascirpt:;"></a>
+		<a class="chat-btn" href="javascript:;"></a>
 		<p class="user-name">李小花</p>
 	</div>
 	<div class="user-div">
-		<a class="chat-btn" href="javascirpt:;"></a>
+		<a class="chat-btn" href="javascript:;"></a>
 		<p class="user-name">周小勋</p>
 	</div>
 	<div class="user-div">
-		<a class="chat-btn" href="javascirpt:;"></a>
+		<a class="chat-btn" href="javascript:;"></a>
 		<p class="user-name">放羊的星星</p>
 	</div>
 	<div class="user-div">
-		<a class="chat-btn" href="javascirpt:;"></a>
+		<a class="chat-btn" href="javascript:;"></a>
 		<p class="user-name">放星星的羊</p>
 	</div>
 	<div class="user-div">
-		<a class="chat-btn" href="javascirpt:;"></a>
+		<a class="chat-btn" href="javascript:;"></a>
 		<p class="user-name">放星星的牛</p>
 	</div>
 	<div class="user-div">
-		<a class="chat-btn" href="javascirpt:;"></a>
+		<a class="chat-btn" href="javascript:;"></a>
 		<p class="user-name">王小明</p>
 	</div>
 	<div class="user-div">
-		<a class="chat-btn" href="javascirpt:;"></a>
+		<a class="chat-btn" href="javascript:;"></a>
 		<p class="user-name">李小花</p>
 	</div>
 	<div class="user-div">
-		<a class="chat-btn" href="javascirpt:;"></a>
+		<a class="chat-btn" href="javascript:;"></a>
 		<p class="user-name">周小勋</p>
 	</div>
 
@@ -78,10 +79,6 @@
 <div id="canvasWrap">
 	<canvas id="canvas">
 	</canvas>
-
-	<p id="move"></p>
-	<p id="p1"></p>
-	<p id="p2"></p>
 </div>
 
 </body>
@@ -206,14 +203,15 @@ function initCanvasBtn(){
 		}else{
 			canvasShow();
 		}
-		this.clicked != this.clicked;
+		this.clicked = !this.clicked;
 	}
 	function canvasHide(){
 		var wrap = document.getElementById("user-list");
 	    var aside = document.getElementById("canvasWrap");
-
+	    
 	    if(wrap!=null&&aside!=null)
 	    {
+	      removeClass(canvasBtn,"active");
 	      removeClass(aside,"active");
 	      removeClass(wrap,"scaleLeft");
 	    }
@@ -226,6 +224,7 @@ function initCanvasBtn(){
 	    {
 	      initCanvas();
 
+	      addClass(canvasBtn,"active");
 	      addClass(aside,"active");
 	      addClass(wrap,"scaleLeft");
 	    }
@@ -245,8 +244,6 @@ function initCanvas(){
 	var canvasLeft = parseInt(canvas.style.left);
 	var canvasTop = parseInt(canvas.style.top);
 
-	document.getElementById("move").innerHTML = "x: " + canvasLeft + " y: "+ canvasTop ;
-
 
 	var backX;
 	var backY;
@@ -254,9 +251,6 @@ function initCanvas(){
 		e.preventDefault();
 		var touch = e.targetTouches[0];
 
-		document.getElementById("p1").innerHTML = e.targetTouches[0].pageX +" "+ e.targetTouches[0].pageY;
-		if(e.targetTouches[1]!=null)
-		document.getElementById("p2").innerHTML = e.targetTouches[1].pageX +" "+ e.targetTouches[1].pageY;
 
 		if(e.targetTouches[1]==null){
 
@@ -286,10 +280,20 @@ function initCanvas(){
 			var nowX = (e.targetTouches[0].pageX + e.targetTouches[1].pageX)/2 -canvasLeft;
 			var nowY = (e.targetTouches[0].pageY + e.targetTouches[1].pageY)/2 -canvasTop;
 
-			document.getElementById("move").innerHTML = "x: " + nowX + " y: "+ nowY ;
+			var nowCanvasLeft = parseInt(canvas.style.left) + (nowX-backX);
+			if(nowCanvasLeft>0)
+				nowCanvasLeft=0;
+			if(nowCanvasLeft<canvasWrap.offsetWidth -  canvas.width)
+				nowCanvasLeft = canvasWrap.offsetWidth -  canvas.width;
 
-			canvas.style.left = parseInt(canvas.style.left) + (nowX-backX) + "px";
-			canvas.style.top = parseInt(canvas.style.top) + (nowY-backY) + "px";
+			var nowCanvasTop = parseInt(canvas.style.top) + (nowY-backY);
+			if(nowCanvasTop>0)
+				nowCanvasTop=0;
+			if(nowCanvasTop<canvasWrap.offsetHeight -  canvas.height)
+				nowCanvasTop = canvasWrap.offsetHeight -  canvas.height;
+
+			canvas.style.left = nowCanvasLeft + "px";
+			canvas.style.top = nowCanvasTop+ "px";
 
 			canvasLeft = parseInt(canvas.style.left);
 			canvasTop = parseInt(canvas.style.top);
