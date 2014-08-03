@@ -19,13 +19,13 @@
     initMessageColor();
     document.getElementById('message-list').scrollTop = 100000000000;
 
-    request.get('http://192.168.199.172:8888/index.php/messages/save?name=' + msg.name + '&messagetext=' + msg.content, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        
-      } else if (error) {
-        console.log(error);
-      }
-    });
+    // request.get('http://hackathon.scauhci.org/index.php/messages/save?name=' + msg.name + '&messagetext=' + msg.content, function (error, response, body) {
+    //   if (!error && response.statusCode == 200) {
+    //     console.log(body);
+    //   } else if (error) {
+    //     console.log(error);
+    //   }
+    // });
   }
 
   function drawAddress () {
@@ -35,6 +35,9 @@
       } else {
         if (stdout.match(/(192.168.[0-9]*.[0-9]*)/)) {
           var url = 'http://' + stdout.match(/(192.168.[0-9]*.[0-9]*)/).pop() + ':3000';
+          new QRCode(document.getElementById("qrcode"), url);
+        } else if (stdout.match(/(172.16.[0-9]*.[0-9]*)/)) {
+          var url = 'http://' + stdout.match(/(172.16.[0-9]*.[0-9]*)/).pop() + ':3000';
           new QRCode(document.getElementById("qrcode"), url);
         }
       }
