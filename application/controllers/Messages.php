@@ -27,7 +27,7 @@ class Messages extends Controller {
 		// 'msg' => 'please login'
 		// ) );
 		// }
-		
+		// 判断留言是否为空
 		if (empty ( $messageText ) && empty ( $messageImage ))
 			$this->renderJSON ( array (
 					'status' => 201,
@@ -69,7 +69,7 @@ class Messages extends Controller {
 		$messageModel = $this->loadModel ( 'Message' );
 		$messageList = $messageModel->getPage ( array (), 
 				// 'shop_id' => $_SESSION ['id']
-				$page, 10, array (
+				$page, 40, array (
 						'create_time' 
 				), TRUE );
 		
