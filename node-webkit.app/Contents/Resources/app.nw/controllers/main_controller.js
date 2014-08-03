@@ -11,11 +11,13 @@
 
   function messageCallback (data) {
     var msg = JSON.parse(data);
-    document.getElementById('message-container').innerHTML += '<p><span>' +
-      msg.name + '&nbsp;&nbsp;' + msg.time + 
-      ':</span><br><span>' +
-      msg.content +
-      '</span></p>';
+    document.getElementById('message-container').innerHTML += '<div class="message-div">'
+      + '<span class="message-name">' + msg.name + '&nbsp;&nbsp;' + msg.time + '</span>'
+      + '<p class="message-content">' + msg.content + '</p>'
+      + '</div>';
+
+    initMessageColor();
+    document.getElementById('message-list').scrollTop = 100000000000;
 
     request.get('http://192.168.199.172:8888/index.php/messages/save?name=' + msg.name + '&messagetext=' + msg.content, function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -77,6 +79,8 @@ function initCanvas(){
   window.onload = function () {
     socket.startServer(messageCallback, touchStartCallback, touchMoveCallback);
     drawAddress();
+    initMessageColor();
+    initCanvasBtn();
   }
 
 })();

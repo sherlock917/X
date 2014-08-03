@@ -1,24 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>对面</title>
-
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Visitor</title>
+  <link rel="stylesheet" type="text/css" href="../assets/css/home.css">
 </head>
+
 <body>
 
-  <div id="qrcode"></div>
+<div id="canvasWrap">
+  <canvas id="canvas" width="1000" height="1000">
+  </canvas>
+</div>
 
-  <div id="message-container"></div>
+<div id="content-wrap">
+<div id="message-list">
+	<div class="message-inner" id="message-container"></div>
+</div>
 
-  <div id="canvasWrap">
-    <canvas id="canvas" width="1000" height="1000">
-    </canvas>
-  </div>
+<div class="right-home">
+	<div class="qrcode-wrap" id="qrcode">
+	</div>
+	<a href="javascript:;" id="canvas-btn"></a>
+</div>
 
-  <script src="../assets/js/tool.js"></script>
+</div>
+
+</body>
+
+<script type="text/javascript" src="../assets/js/index.js"></script>
+<script type="text/javascript">
+var colorList = ["rgb(104,63,37)","rgb(207,129,60)","rgb(232,203,75)","rgb(140,158,79)","rgb(64,110,140)","rgb(80,49,81)","rgb(185,42,86)"];
+
+function initMessageColor(){
+	var userDivList = document.getElementsByClassName("message-div");
+
+	for (var i = userDivList.length - 1; i >= 0; i--) {
+		userDivList[i].style.backgroundColor = colorList[i%colorList.length];
+	};
+}
+
+function initCanvasBtn(){
+	var canvasBtn = document.getElementById("canvas-btn");
+
+	canvasBtn.clicked= false;
+	canvasBtn.onclick = function(){
+		if(this.clicked){
+			canvasHide();
+		}else{
+			canvasShow();
+		}
+		this.clicked = !this.clicked;
+	}
+	function canvasHide(){
+		var wrap = document.getElementById("content-wrap");
+	    var aside = document.getElementById("canvasWrap");
+	    
+	    if(wrap!=null&&aside!=null)
+	    {
+	      removeClass(canvasBtn,"active");
+	      removeClass(aside,"active");
+	      removeClass(wrap,"scaleLeft");
+	    }
+	}
+	function canvasShow(){
+		var wrap = document.getElementById("content-wrap");
+	    var aside = document.getElementById("canvasWrap");
+
+	    if(wrap!=null&&aside!=null)
+	    {
+	      addClass(canvasBtn,"active");
+	      addClass(aside,"active");
+	      addClass(wrap,"scaleLeft");
+	    }
+	}
+}
+
+</script>
+
+	<script src="../assets/js/tool.js"></script>
   <script src="../assets/js/qrcode.min.js"></script>
   <script src="../controllers/main_controller.js"></script>
 
-</body>
 </html>
