@@ -7,7 +7,7 @@
   var _target = '';
   var _current = '';
 
-  // not mine......
+  // these shits are not mine......
 
 var colorList = ["rgb(104,63,37)","rgb(207,129,60)","rgb(232,203,75)","rgb(140,158,79)","rgb(64,110,140)","rgb(80,49,81)","rgb(185,42,86)"];
 var currentNumber;
@@ -120,7 +120,7 @@ function initCanvasBtn(){
     }else{
       canvasShow();
     }
-    this.clicked != this.clicked;
+    this.clicked = !this.clicked;
   }
   function canvasHide(){
     var wrap = document.getElementById("user-list");
@@ -128,6 +128,7 @@ function initCanvasBtn(){
 
       if(wrap!=null&&aside!=null)
       {
+        removeClass(canvasBtn,"active");
         removeClass(aside,"active");
         removeClass(wrap,"scaleLeft");
       }
@@ -140,6 +141,7 @@ function initCanvasBtn(){
       {
         initCanvas();
 
+        addClass(canvasBtn,"active");
         addClass(aside,"active");
         addClass(wrap,"scaleLeft");
       }
@@ -159,8 +161,6 @@ function initCanvas(){
   var canvasLeft = parseInt(canvas.style.left);
   var canvasTop = parseInt(canvas.style.top);
 
-  document.getElementById("move").innerHTML = "x: " + canvasLeft + " y: "+ canvasTop ;
-
 
   var backX;
   var backY;
@@ -168,9 +168,6 @@ function initCanvas(){
     e.preventDefault();
     var touch = e.targetTouches[0];
 
-    document.getElementById("p1").innerHTML = e.targetTouches[0].pageX +" "+ e.targetTouches[0].pageY;
-    if(e.targetTouches[1]!=null)
-    document.getElementById("p2").innerHTML = e.targetTouches[1].pageX +" "+ e.targetTouches[1].pageY;
 
     if(e.targetTouches[1]==null){
 
@@ -181,6 +178,8 @@ function initCanvas(){
       backX = (e.targetTouches[0].pageX + e.targetTouches[1].pageX)/2-canvasLeft;
       backY = (e.targetTouches[0].pageY + e.targetTouches[1].pageY)/2-canvasTop;
     }
+
+    socket.emit('touchstart', JSON.stringify({backX : backX, backY : backY}));
   });
   canvas.addEventListener("touchmove",function(e){
     e.preventDefault();
@@ -196,14 +195,30 @@ function initCanvas(){
 
       backX = touch.pageX-canvasLeft;
       backY = touch.pageY-canvasTop;
+      socket.emit('touchmove', JSON.stringify({
+        backX : backX,
+        backY : backY,
+        lineX : touch.pageX-canvasLeft,
+        lineY : touch.pageY-canvasTop
+      }));
     }else{
       var nowX = (e.targetTouches[0].pageX + e.targetTouches[1].pageX)/2 -canvasLeft;
       var nowY = (e.targetTouches[0].pageY + e.targetTouches[1].pageY)/2 -canvasTop;
 
-      document.getElementById("move").innerHTML = "x: " + nowX + " y: "+ nowY ;
+      var nowCanvasLeft = parseInt(canvas.style.left) + (nowX-backX);
+      if(nowCanvasLeft>0)
+        nowCanvasLeft=0;
+      if(nowCanvasLeft<canvasWrap.offsetWidth -  canvas.width)
+        nowCanvasLeft = canvasWrap.offsetWidth -  canvas.width;
 
-      canvas.style.left = parseInt(canvas.style.left) + (nowX-backX) + "px";
-      canvas.style.top = parseInt(canvas.style.top) + (nowY-backY) + "px";
+      var nowCanvasTop = parseInt(canvas.style.top) + (nowY-backY);
+      if(nowCanvasTop>0)
+        nowCanvasTop=0;
+      if(nowCanvasTop<canvasWrap.offsetHeight -  canvas.height)
+        nowCanvasTop = canvasWrap.offsetHeight -  canvas.height;
+
+      canvas.style.left = nowCanvasLeft + "px";
+      canvas.style.top = nowCanvasTop+ "px";
 
       canvasLeft = parseInt(canvas.style.left);
       canvasTop = parseInt(canvas.style.top);
@@ -211,10 +226,9 @@ function initCanvas(){
       backX = (e.targetTouches[0].pageX + e.targetTouches[1].pageX)/2-canvasLeft;
       backY = (e.targetTouches[0].pageY + e.targetTouches[1].pageY)/2-canvasTop;
     }
-
   });
   canvas.addEventListener("touchend",function(e){
-    
+
   });
 }
 
@@ -228,7 +242,7 @@ function initCanvas(){
       document.getElementById('login-window').style.zIndex = -1;
 
       // socket start
-      socket = io('http://0.0.0.0:3000');
+      socket = io(location.host);
 
       // socket event handlers
       socket.on('connect', function () {
@@ -258,12 +272,6 @@ function initCanvas(){
       selfMassageHandler(msg)
       socket.emit('whisper', msg);
     }
-
-    // 
-    // appendChat(1,"这是一个左实例这是一个左实例这是一个左实例这是一个左实例");
-    // appendChat(1,"这是一个左实例");
-    // appendChat(1,"这是一个左实例这是一个左实例这是一个左实例这是一个左实例");
-    // appendChat(1,"这是一个左实例");
     return false;
   }
 
@@ -274,11 +282,6 @@ function initCanvas(){
 
   function massageHandler (data) {
     var msg = JSON.parse(data);
-    // document.getElementById('message-container').innerHTML += '<p><span>'
-    //   + msg.name + '&nbsp;&nbsp;' + msg.time
-    //   + '</span><br><span>'
-    //   + msg.content
-    //   + '</span></p>';
   }
 
   function whisperHandler (data) {
@@ -314,11 +317,6 @@ function initCanvas(){
     appendChat(2, msg.content);
     document.getElementById('visitor-input').value = '';
     document.getElementById('chat-content').scrollTop = 1000000000;
-    // document.getElementById('message-container').innerHTML += '<p><span>'
-    //   + msg.name + '&nbsp;&nbsp;' + msg.time
-    //   + '</span><br><span>'
-    //   + msg.content
-    //   + '</span></p>';
   }
 
   function allUserHandler (all) {
@@ -326,22 +324,24 @@ function initCanvas(){
     var list = document.getElementById('user-list');
     for (var i = 0; i < users.length; i++) {
       list.innerHTML += '<div class="user-div">' + 
-        '<a class="chat-btn" href="javascirpt:;"></a>' + 
+        '<a class="chat-btn" href="javascript:;"></a>' + 
         '<p class="user-name" id="' + users[i].id + '">' + users[i].name + '</p>' +
         '</div>';
     }
     initBtnColor();
     initChatBtn();
+    initCanvasBtn();
   }
 
   function newUserHandler (data) {
     var user = JSON.parse(data);
     document.getElementById('user-list').innerHTML += '<div class="user-div">' + 
-      '<a class="chat-btn" href="javascirpt:;"></a>' + 
+      '<a class="chat-btn" href="javascript:;"></a>' + 
       '<p class="user-name" id="' + user.id + '">' + user.name + '</p>' +
       '</div>';
     initBtnColor();
     initChatBtn();
+    initCanvasBtn();
   }
 
   function userLeaveHandler (data) {

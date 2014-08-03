@@ -38,7 +38,7 @@ function getAllVisitors () {
   return result;
 }
 
-exports.startServer = function (messageCallback) {
+exports.startServer = function (messageCallback, touchStartCallback, touchMoveCallback) {
   app.listen(3000);
 
   io.on('connection', function (socket) { 
@@ -73,13 +73,24 @@ exports.startServer = function (messageCallback) {
 
     socket.on('whisper', function (data) {
       var msg = JSON.parse(data);
-      for (var i = 0; i < visitors.length; i++) {
-        if (msg.target == visitors[i].id) {
-          visitors[i].emit('whisper', data);
-          break;
+      if (msg.target == 'host') {
+        messageCallback(data);
+      } else {
+        for (var i = 0; i < visitors.length; i++) {
+          if (msg.target == visitors[i].id) {
+            visitors[i].emit('whisper', data);
+            break;
+          }
         }
       }
-    })
+    });
+
+    socket.on('touchstart', function (data) {
+      touchStartCallback(data);
+    });
+    socket.on('touchmove', function (data) {
+      touchMoveCallback(data);
+    });
 
   });
 }
