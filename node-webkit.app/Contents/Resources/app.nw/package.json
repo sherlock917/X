@@ -1,0 +1,12 @@
+{
+  "name" : "nw-test",
+  "main" : "./views/client.html",
+  "window" : {
+    "toolbar" : true,
+    "width" : 800,
+    "height" : 600,
+    "min_width" : 800,
+    "min_height" : 600,
+    "position" : "center"
+  }
+}
