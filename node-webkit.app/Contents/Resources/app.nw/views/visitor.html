@@ -1,27 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>Visitor</title>
+  <link rel="stylesheet" type="text/css" href="../assets/css/index.css">
 </head>
+
 <body>
-  
-  <p>
-    <input type="text" id="visitor-name">
-    <button id="visitor-login">login</button>
-  </p>
-  <p>
-    <textarea id="visitor-input"></textarea>
-    <button id="visitor-submit">submit</button>
-  </p>
+<div id="login-window">
+	<div id="login-main">
+		<input type="text" id="visitor-name" placeholder="您的称呼">
+		<button id="visitor-login">进入</button>
+	</div>
+</div>
+<div id="user-list">
+	<div class="user-div">
+		<a class="chat-btn" href="javascript:;"></a>
+		<p class="user-name" id="host">商家</p>
+		<a class="canvas-btn" href="javascript:;"></a> 
+	</div>
+</div>
 
-  <div id="message-container">
-    
-  </div>
+<div id="chat-wrap">
+	
+	<div class="chat-content" id="chat-content">
+		<div class="chat-content-inner">
+			
+		</div>
+	</div>
 
-  <script src="/socket.io/socket.io.js"></script> 
-  <script src="../assets/js/tool.js"></script>
-  <script src="../assets/js/visitor.js"></script>
+	<span id="chat-name"></span>
+
+	<div class="chat-footer">
+		<div class="left">
+			<textarea id="visitor-input"></textarea>
+			<b></b>
+		</div>
+		<div class="right">
+			<a id="visitor-submit" href="javascript:;">提交</a>
+			<b></b>
+		</div>
+	</div>
+</div>
+
+<div id="canvasWrap">
+	<canvas id="canvas">
+	</canvas>
+</div>
 
 </body>
+
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../assets/js/tool.js"></script>
+<script type="text/javascript" src="../assets/js/index.js"></script>
+<script type="text/javascript" src="../assets/js/visitor.js"></script>
+
 </html>
