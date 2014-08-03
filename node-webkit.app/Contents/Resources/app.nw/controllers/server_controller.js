@@ -1,0 +1,7 @@
+var Server = (function () {
+
+  return {
+
+  }
+
+})();
