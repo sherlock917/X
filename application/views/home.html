@@ -17,11 +17,16 @@
 <div id="content-wrap">
 <div id="message-list">
 	<div class="message-inner">
+		{foreach $messageList as $message}
 		<div class="message-div">
-			<span class="message-name">王小明</span>
-			<p class="message-content">这是一首悲伤的小情歌</p>
+			<span class="message-name">{$message.name}</span>
+			<p class="message-content">{$message.message_text}</p>
 		</div>
-		<div class="message-div">
+		{/foreach}
+
+
+
+<!-- 		<div class="message-div">
 			<span class="message-name">王大明</span>
 			<p class="message-content">这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌这是两首悲伤的小情歌</p>
 		</div>
@@ -52,21 +57,19 @@
 		<div class="message-div">
 			<span class="message-name">王三明</span>
 			<p class="message-content">这是四首悲伤的小情歌这是四首悲伤的小情歌这是四首悲伤的小情歌这是四首悲伤的小情歌</p>
-		</div>
+		</div> -->
 	</div>
 </div>
 
 <div class="right-home">
 	<div class="qrcode-wrap">
-		<img src="images/qrcode.jpg" id="qrcode"/>
+		<img src="/public/images/qrcode.jpg" id="qrcode"/>
 		<b></b>
 	</div>
 	<a href="javascript:;" id="canvas-btn"></a>
 </div>
 
 </div>
-
-</body>
 
 <script type="text/javascript" src="/public/js/index.js"></script>
 <script type="text/javascript">

@@ -4,5 +4,5 @@
  */
 return array (
  		'default_controller' => 'Homes', // 默认的controller
-		'default_action' => 'index'  // 默认的action
+		'default_action' => 'home'  // 默认的action
 );
