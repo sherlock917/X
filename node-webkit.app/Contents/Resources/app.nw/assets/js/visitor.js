@@ -288,14 +288,19 @@ function initCanvas(){
     var msg = JSON.parse(data);
     var userList = document.getElementsByClassName('user-name');
     var chatWrap = document.getElementById('chat-wrap');
+    var canvasWrap = document.getElementById('canvasWrap');
     var wrap = document.getElementById("user-list");
     var aside = document.getElementById("chat-wrap");
     if (_current != msg.origin) {
       removeClass(aside,"active");
       removeClass(wrap,"scale");
-      setTimeout(resetChat,400);
+      resetChat();
     }
-    if (chatWrap.className != 'active') {
+    if (canvasWrap.className.indexOf('active') >= 0) {
+      alert(msg.name + ' 对你说：\n' + msg.content);
+      return false;
+    }
+    if (chatWrap.className.indexOf('active') < 0) {
       for (var i = 0; i < userList.length; i++) {
         if (userList[i].id == msg.origin) {
           currentNumber = i;
